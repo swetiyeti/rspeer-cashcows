@@ -18,8 +18,8 @@ import java.util.function.Predicate;
 
 public class Attack extends Task {
 
-    public static final String ATTACK_ACTION = "Attack";
-    public static final String NPC_NAME = "Cow";
+    private static final String ATTACK_ACTION = "Attack";
+    private static final String NPC_NAME = "Cow";
 
     @Override
     public boolean validate() {
