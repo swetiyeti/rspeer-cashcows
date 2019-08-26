@@ -1,7 +1,6 @@
 package CashCows.node;
 
 import org.rspeer.runetek.adapter.scene.Npc;
-import org.rspeer.runetek.adapter.scene.Pickable;
 import org.rspeer.runetek.adapter.scene.Player;
 import org.rspeer.runetek.api.commons.Time;
 import org.rspeer.runetek.api.component.Dialog;
