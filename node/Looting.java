@@ -28,7 +28,7 @@ public class Looting extends Task {
         {
             Movement.toggleRun(!Movement.isRunEnabled());
         }
-        if (cowhide != null){
+        if ((cowhide != null) && Movement.isWalkable(cowhide.getPosition())){
             Log.info("Looting Cowhide.");
             Log.info("cowhide x:" + cowhide.getSceneX() + "y: " + cowhide.getSceneY());
             //don't do anything until you have the cowhide
