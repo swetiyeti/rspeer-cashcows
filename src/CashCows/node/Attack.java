@@ -56,7 +56,7 @@ public class Attack extends Task {
                 Log.info("The if statement finished executing.");
             }
         }
-        Time.sleepUntil(() -> (Pickables.getNearest("Cowhide") != null),50000);
+        Time.sleepUntil(() -> (Pickables.getNearest("Cowhide") != null),5000);
 
         return 250;
     }
