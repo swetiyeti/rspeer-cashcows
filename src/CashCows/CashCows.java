@@ -2,18 +2,24 @@ package CashCows;
 
 import CashCows.node.Attack;
 import CashCows.node.Banking;
+import CashCows.node.Looting;
 import CashCows.node.Traverse;
+import org.rspeer.runetek.api.commons.StopWatch;
 import org.rspeer.runetek.api.movement.position.Area;
 import org.rspeer.runetek.api.movement.position.Position;
+import org.rspeer.runetek.event.listeners.RenderListener;
+import org.rspeer.runetek.event.types.RenderEvent;
 import org.rspeer.script.ScriptMeta;
 import org.rspeer.script.ScriptCategory;
 import org.rspeer.script.task.Task;
 import org.rspeer.script.task.TaskScript;
 
-@ScriptMeta(name = "Sweti's Cash Cows",  desc = "Kills cows in east Lumby, banks hides", developer = "Sweti Yeti", category = ScriptCategory.COMBAT)
-public class CashCows extends TaskScript {
+import java.awt.*;
 
-    private static final Task[] TASKS = { new Traverse(), new Attack(), new Banking()};
+@ScriptMeta(name = "Sweti's Cash Cows",  desc = "Kills cows in east Lumby, banks hides", developer = "Sweti Yeti", category = ScriptCategory.COMBAT)
+public class CashCows extends TaskScript implements RenderListener {
+
+    private static final Task[] TASKS = { new Traverse(), new Attack(), new Banking(), new Looting()};
 
     public static final Area BANK_AREA_STAIRS = Area.rectangular(3206, 3209, 3205, 3208);//stairs in Lumby castle
     public static final Area BANK_AREA = Area.rectangular(3207, 3221, 3210, 3215, 2); //actual bank area
@@ -38,16 +44,22 @@ public class CashCows extends TaskScript {
             }
     );
 
-    public static String cowName = "Cow";
-    public static String hideName = "Cowhide";
+    public static StopWatch timer;
 
     @Override
     public void onStart() {
-       submit(TASKS);
+        timer = StopWatch.start();
+        submit(TASKS);
     }
 
     @Override
     public void onStop() {
         //When the script is stopped the segment of code in this method will be ran once.   
+    }
+
+    @Override
+    public void notify(RenderEvent renderEvent) {
+        Graphics g = renderEvent.getSource();
+        g.drawString("Time elapsed: " + timer.toElapsedString(), 30, 30);
     }
 }

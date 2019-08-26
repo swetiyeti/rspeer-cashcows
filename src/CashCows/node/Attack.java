@@ -23,15 +23,13 @@ public class Attack extends Task {
 
     @Override
     public boolean validate() {
-        return !Inventory.isFull() && CashCows.COW_FIGHT_AREA.contains(Players.getLocal());
+        return shouldAttack() || notLooting();
     }
 
     @Override
     public int execute() {
-        Log.info("The loop started.");
+        Log.info("Attacking");
         Player local = Players.getLocal();
-        boolean fightStarted;
-        boolean fightOver = false;
         final long sleepMin = 750;
         final long sleepMax = 1000;
 
@@ -50,67 +48,26 @@ public class Attack extends Task {
             Movement.toggleRun(!Movement.isRunEnabled());
         }
 
-        //find near cowhide
-        final Pickable cowhide = Pickables.getNearest("Cowhide");
-        final int invNum = Inventory.getCount();
-        //determine if cowhide is close enough to take
-        if (cowhide != null && !Inventory.isFull() && !local.isAnimating() && !local.isMoving() ){
-            if (Movement.isWalkable(cowhide)) {
-                Log.info("Looting Cowhide.");
-                cowhide.interact("Take");
-                //don't do anything until you have the cowhide
-                Time.sleepUntil(() -> (Inventory.getCount() > invNum), 2500);
-            }
-        }
-
-
-
         if (local.getTargetIndex() == -1) {
             Log.info("The if statement started executing.");
             if (targetNpc != null && !local.isMoving() && targetNpc.interact(ATTACK_ACTION)) {
                 Time.sleep(sleepMin, sleepMax);
-                /*
-                //used to determine if target NPC is dead
-                if (targetNpc.getAnimation() == 5851) {
-                    fightOver = true;
-                }
-                */
-
                 Time.sleepUntil(() -> local.getTargetIndex() != -1, 2500);
                 Log.info("The if statement finished executing.");
             }
         }
+        Time.sleepUntil(() -> (Pickables.getNearest("Cowhide") != null),50000);
 
-
-        return 600;
+        return 250;
     }
 
-    /*// used to determine if cowhide is within reach.
-    private boolean canLoot(Positionable a) {
+    private boolean shouldAttack(){
+        return !Inventory.isFull() && CashCows.COW_FIGHT_AREA.contains(Players.getLocal()) && (Pickables.getNearest("Cowhide") == null);
+    }
+
+    private boolean notLooting(){
         Player local = Players.getLocal();
-        if ((Distance.between(local.getPosition(), a)) < 2){
-            return true;
-        } else return false;
+        return !local.isMoving() && !local.isAnimating() && CashCows.COW_FIGHT_AREA.contains(Players.getLocal()) && (Pickables.getNearest("Cowhide") == null);
     }
-    */
-
-
-    /*
-    //used too loot. pass cowhide as the Pickable.
-    private boolean looting(Pickable a){
-        int invNum = 0;
-        invNum = Inventory.getCount();
-        if (a != null && !Inventory.isFull()) {
-            if (Movement.isWalkable(a)) {
-                Log.info("Looting Cowhide.");
-                a.interact("Take");
-                if (Inventory.getCount() > invNum){
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    */
 
 }
