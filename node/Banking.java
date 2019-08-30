@@ -26,14 +26,19 @@ public class Banking extends Task implements RenderListener {
     public int execute() {
         Log.info("Attempting to bank.");
         if (Bank.isOpen() && Inventory.isFull()){
-            Bank.depositAll("Cowhide");
-            Log.info("Deposited Cowhide.");
-            cowhideCount += 28;
+            if (Inventory.contains("Cowhide")){
+                cowhideCount = cowhideCount + Inventory.getCount("Cowhide");
+                Time.sleepUntil(()->Bank.depositAll("Cowhide"),2400);
+                Log.info("Deposited Cowhide.");
+            } else{
+                Log.info("You don't have any cowhides but your inventory is full!");
+                Time.sleepUntil(Bank::depositInventory,2400);
+            }
         } else{
             Time.sleepUntil(Bank::open,2000);
         }
 
-        return 650;
+        return 850;
     }
 
     @Override

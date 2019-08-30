@@ -21,7 +21,6 @@ public class CashCows extends TaskScript implements RenderListener {
 
     private static final Task[] TASKS = { new Traverse(), new Attack(), new Banking(), new Looting()};
 
-    public static final Area BANK_AREA_STAIRS = Area.rectangular(3206, 3209, 3205, 3208);//stairs in Lumby castle
     public static final Area BANK_AREA = Area.rectangular(3207, 3221, 3210, 3215, 2); //actual bank area
     public static final Area COW_AREA = Area.rectangular(3265, 3255, 3255, 3296);
     public static final Area COW_FIGHT_AREA = Area.polygonal(

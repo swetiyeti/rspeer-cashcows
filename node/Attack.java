@@ -29,8 +29,6 @@ public class Attack extends Task {
     public int execute() {
         Log.info("Attacking");
         Player local = Players.getLocal();
-        final long sleepMin = 750;
-        final long sleepMax = 1000;
 
         final Predicate<Npc> npcPred = x -> x.getName().equals(NPC_NAME)
                 && ((x.getTarget() != null && x.getTarget().equals(local)) || x.getTargetIndex() == -1)
@@ -42,17 +40,13 @@ public class Attack extends Task {
         }
 
         //enable run
-        if (Movement.getRunEnergy() > 25 && !Movement.isRunEnabled())
-        {
+        if (Movement.getRunEnergy() > 25 && !Movement.isRunEnabled()) {
             Movement.toggleRun(!Movement.isRunEnabled());
         }
 
         if (local.getTargetIndex() == -1) {
-            Log.info("The if statement started executing.");
             if (targetNpc != null && !local.isMoving() && targetNpc.interact(ATTACK_ACTION)) {
-                Time.sleep(sleepMin, sleepMax);
-                Time.sleepUntil(() -> local.getTargetIndex() != -1, 2500);
-                Log.info("The if statement finished executing.");
+                Time.sleepUntil(() -> local.getTargetIndex() != -1, 5000);
             }
         }
         Time.sleepUntil(() -> (Pickables.getNearest("Cowhide") != null),5000);

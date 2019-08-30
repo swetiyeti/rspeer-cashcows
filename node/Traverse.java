@@ -1,6 +1,5 @@
 package CashCows.node;
 
-import org.rspeer.runetek.adapter.scene.Player;
 import org.rspeer.runetek.api.component.tab.Inventory;
 import org.rspeer.runetek.api.movement.Movement;
 import org.rspeer.runetek.api.scene.Players;
@@ -16,14 +15,13 @@ public class Traverse extends Task {
 
     @Override
     public int execute() {
+
         Log.info("Traversing");
-        Player local = Players.getLocal();
-        if (Movement.getRunEnergy() > 25 && !Movement.isRunEnabled())
-        {
+        if (Movement.getRunEnergy() > 25 && !Movement.isRunEnabled()) {
             Movement.toggleRun(!Movement.isRunEnabled());
         }
-        Movement.walkTo(traverseToBank() ? CashCows.BANK_AREA.getCenter()
-                : CashCows.COW_AREA.getCenter() );
+
+        Movement.walkTo(traverseToBank() ? CashCows.BANK_AREA.getCenter() : CashCows.COW_AREA.getCenter() );
         return 1000;
     }
 
